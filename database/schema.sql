@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS "users" (
   "id" VARCHAR(40),
   "name" VARCHAR(64) NOT NULL,
-  "email" VARCHAR(256) NOT NULL,
+  "email" VARCHAR(256) NOT NULL UNIQUE,
   "password" TEXT NOT NULL,
   "avatar_url" TEXT,
   "created_at" TIMESTAMP NOT NULL DEFAULT now(),
