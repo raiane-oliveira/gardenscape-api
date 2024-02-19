@@ -1,6 +1,6 @@
 ## Features
 
-- [ ] It should be able to register a user
+- [x] It should be able to register a user
 - [ ] It should be able to create vegetable gardens
 - [ ] It should be able to list all plants in third API
 - [ ] It should be able to schedules reminders for plants
