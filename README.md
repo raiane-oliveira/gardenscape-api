@@ -3,6 +3,7 @@
 - [x] It should be able to register a user
 - [ ] It should be able to authenticate a user
 - [x] It should be able to create vegetable gardens
+- [x] It should be able to register a plant
 - [ ] It should be able to list all plants in third API
 - [ ] It should be able to schedules reminders for plants
 - [ ] It should be able to get plant details
@@ -17,3 +18,4 @@
 - [x] User can't register with duplicated email
 - [ ] User can't register vegetable gardens or reminders without being authenticated
 - [x] User must exists to create vegetable gardens
+- [x] It can't register a duplicate plant
