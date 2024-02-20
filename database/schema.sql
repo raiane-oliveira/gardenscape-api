@@ -33,10 +33,12 @@ CREATE TABLE IF NOT EXISTS "reminders" (
   "id" SERIAL,
   "datetime" TIMESTAMP NOT NULL,
   "plant_id" INT,
+  "garden_id" VARCHAR(40),
   "created_at" TIMESTAMP NOT NULL DEFAULT now(),
 
   PRIMARY KEY("id"),
-  FOREIGN KEY("plant_id") REFERENCES "plants"("id") ON DELETE CASCADE
+  FOREIGN KEY("plant_id") REFERENCES "plants"("id") ON DELETE CASCADE,
+  FOREIGN KEY("garden_id") REFERENCES "gardens"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "plants_gardens" (

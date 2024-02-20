@@ -7,4 +7,5 @@ export interface GardenInput extends GardenCreateInput {
 
 export interface GardensRepository {
   create: (data: GardenInput) => Promise<Garden>
+  findById: (id: string) => Promise<Garden | null>
 }

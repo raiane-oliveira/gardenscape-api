@@ -17,4 +17,14 @@ export class InMemoryGardensRepository implements GardensRepository {
 
     return garden
   }
+
+  async findById(id: string) {
+    const garden = this.items.find((item) => item.id === id)
+
+    if (!garden) {
+      return null
+    }
+
+    return garden
+  }
 }

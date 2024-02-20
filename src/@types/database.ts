@@ -30,6 +30,7 @@ export interface Reminder {
   id: number
   datetime: Date
   plant_id: number
+  garden_id: string
   created_at: Date
 }
 
@@ -41,4 +42,4 @@ export interface PlantsGarden {
   added_at: Date
 }
 
-export type PlantsGardenCreateInput = Omit<PlantsGarden, 'id'>
+export type PlantsGardenCreateInput = Omit<PlantsGarden, 'added_at'>

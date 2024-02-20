@@ -6,5 +6,6 @@ export interface CreatePlantInput extends PlantCreateInput {
 
 export interface PlantsRepository {
   create: (data: CreatePlantInput) => Promise<Plant>
-  findById: (apiPlantId: number) => Promise<Plant | null>
+  findById: (id: number) => Promise<Plant | null>
+  findByApiId: (apiPlantId: number) => Promise<Plant | null>
 }

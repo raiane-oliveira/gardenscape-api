@@ -11,7 +11,7 @@ export class RegisterPlantUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const plantExists = await this.plantsRepository.findById(api_plant_id)
+    const plantExists = await this.plantsRepository.findByApiId(api_plant_id)
 
     if (plantExists) {
       throw new PlantAlreadyExistsError()

@@ -20,7 +20,17 @@ export class InMemoryPlantsRepository implements PlantsRepository {
     return plant
   }
 
-  async findById(apiPlantId: number) {
+  async findById(id: number) {
+    const plant = this.items.find((item) => item.api_plant_id === id)
+
+    if (!plant) {
+      return null
+    }
+
+    return plant
+  }
+
+  async findByApiId(apiPlantId: number) {
     const plant = this.items.find((item) => item.api_plant_id === apiPlantId)
 
     if (!plant) {
