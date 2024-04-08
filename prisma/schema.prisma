@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GardenVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum UserRoles {
+  GARDENER
+  ADMIN
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  username  String    @unique
+  email     String    @unique
+  password  String
+  role      UserRoles @default(GARDENER)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  garden Garden[]
+
+  @@map("users")
+}
+
+model Garden {
+  id         String           @id @default(uuid())
+  name       String
+  slug       String           @unique
+  visibility GardenVisibility @default(PUBLIC)
+  createdAt  DateTime         @default(now()) @map("created_at")
+  updatedAt  DateTime?        @map("updated_at")
+  userId     String           @map("user_id")
+
+  user          User            @relation(fields: [userId], references: [id])
+  plantOnGarden PlantOnGarden[]
+
+  @@map("gardens")
+}
+
+model PlantOnGarden {
+  id        String   @id @default(uuid())
+  plantId   String
+  gardenId  String   @map("garden_id")
+  plantedAt DateTime @default(now()) @map("planted_at")
+
+  garden Garden @relation(fields: [gardenId], references: [id])
+
+  @@map("plants_on_garden")
+}
