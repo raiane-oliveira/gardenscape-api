@@ -2,6 +2,7 @@ import { GardensRepository } from "../../repositories/gardens-repository"
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
 import { Either, left, right } from "@/core/either"
+import { Injectable } from "@nestjs/common"
 
 interface DeleteGardenUseCaseRequest {
   gardenId: string
@@ -13,6 +14,7 @@ type DeleteGardenUseCaseResponse = Either<
   {}
 >
 
+@Injectable()
 export class DeleteGardenUseCase {
   constructor(private gardensRepository: GardensRepository) {}
 

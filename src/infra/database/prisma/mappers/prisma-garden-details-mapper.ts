@@ -11,7 +11,7 @@ import { PrismaPlantMapper } from "./prisma-plant-mapper"
 
 export type PrismaGardenDetails = PrismaGarden & {
   user: PrismaGardener
-  plantsOnGarden: PrismaPlant[]
+  plantOnGarden: PrismaPlant[]
 }
 
 export class PrismaGardenDetailsMapper {
@@ -22,7 +22,7 @@ export class PrismaGardenDetailsMapper {
         id: new UniqueEntityId(raw.userId),
         name: raw.user.name,
       },
-      plants: raw.plantsOnGarden.map(PrismaPlantMapper.toDomain),
+      plants: raw.plantOnGarden.map(PrismaPlantMapper.toDomain),
       name: raw.name,
       slug: Slug.create(raw.slug),
       visibility: raw.visibility === "PUBLIC" ? "public" : "private",

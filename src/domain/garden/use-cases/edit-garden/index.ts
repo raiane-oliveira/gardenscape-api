@@ -3,6 +3,7 @@ import { Garden, GardenVisibility } from "../../entities/garden"
 import { GardensRepository } from "../../repositories/gardens-repository"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
 import { Either, left, right } from "@/core/either"
+import { Injectable } from "@nestjs/common"
 
 interface EditGardenUseCaseRequest {
   gardenId: string
@@ -17,6 +18,8 @@ type EditGardenUseCaseResponse = Either<
     garden: Garden
   }
 >
+
+@Injectable()
 export class EditGardenUseCase {
   constructor(private gardensRepository: GardensRepository) {}
 

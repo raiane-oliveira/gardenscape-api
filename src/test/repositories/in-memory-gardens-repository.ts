@@ -1,9 +1,7 @@
 import { PaginationParams } from "@/core/repositories/pagination-params"
 import { Garden, GardenVisibility } from "@/domain/garden/entities/garden"
 import { GardenDetails } from "@/domain/garden/entities/value-objects/garden-details"
-import { GardenersRepository } from "@/domain/garden/repositories/gardeners-repository"
 import { GardensRepository } from "@/domain/garden/repositories/gardens-repository"
-import { PlantsRepository } from "@/domain/garden/repositories/plants-repository"
 import { InMemoryPlantsRepository } from "./in-memory-plants-repository"
 import { InMemoryGardenersRepository } from "./in-memory-gardeners-repository"
 
