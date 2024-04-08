@@ -53,4 +53,15 @@ describe("Gardeners (E2E)", () => {
       access_token: expect.any(String),
     })
   })
+
+  test("[POST] /gardeners/authenticate (authenticate with wrong password)", async () => {
+    const response = await request(app.getHttpServer())
+      .post("/gardeners/authenticate")
+      .send({
+        username: "johndoe",
+        password: "1234567",
+      })
+
+    expect(response.statusCode).toBe(401)
+  })
 })
