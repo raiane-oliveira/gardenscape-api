@@ -1,6 +1,7 @@
 import { Either, right } from "@/core/either"
 import { GardensRepository } from "../../repositories/gardens-repository"
 import { Garden } from "../../entities/garden"
+import { Injectable } from "@nestjs/common"
 
 interface FetchUserGardensUseCaseRequest {
   gardenerId: string
@@ -14,6 +15,7 @@ type FetchUserGardensUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class FetchUserGardensUseCase {
   constructor(private gardensRepository: GardensRepository) {}
 

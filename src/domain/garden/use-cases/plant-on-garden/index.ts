@@ -4,6 +4,7 @@ import { GardensRepository } from "../../repositories/gardens-repository"
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
 import { Plant } from "../../entities/plant"
+import { Injectable } from "@nestjs/common"
 
 interface PlantOnGardenUseCaseRequest {
   plantId: string
@@ -13,9 +14,10 @@ interface PlantOnGardenUseCaseRequest {
 
 type PlantOnGardenUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
-  {}
+  object
 >
 
+@Injectable()
 export class PlantOnGardenUseCase {
   constructor(
     private plantsRepository: PlantsRepository,

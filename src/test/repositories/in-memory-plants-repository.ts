@@ -8,7 +8,7 @@ export class InMemoryPlantsRepository implements PlantsRepository {
     this.items.push(plant)
   }
 
-  async findByGardenId(gardenId: string) {
+  async findManyByGardenId(gardenId: string) {
     const plants = this.items.filter(
       (item) => item.gardenId.toString() === gardenId,
     )

@@ -40,7 +40,7 @@ export class InMemoryGardensRepository implements GardensRepository {
       return null
     }
 
-    const plants = await this.plantsRepository.findByGardenId(
+    const plants = await this.plantsRepository.findManyByGardenId(
       garden.id.toString(),
     )
 

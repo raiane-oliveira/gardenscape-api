@@ -2,6 +2,7 @@ import { Either, left, right } from "@/core/either"
 import { GardenersRepository } from "../../repositories/gardeners-repository"
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { GardenerDetails } from "../../entities/value-objects/gardener-details"
+import { Injectable } from "@nestjs/common"
 
 interface GetGardenerProfileUseCaseRequest {
   username: string
@@ -14,6 +15,7 @@ type GetGardenerProfileUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class GetGardenerProfileUseCase {
   constructor(private gardenersRepository: GardenersRepository) {}
 
