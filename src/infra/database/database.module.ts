@@ -4,6 +4,8 @@ import { PrismaGardenersRepository } from "./prisma/repositories/prisma-gardener
 import { GardenersRepository } from "@/domain/garden/repositories/gardeners-repository"
 import { GardensRepository } from "@/domain/garden/repositories/gardens-repository"
 import { PrismaGardensRepository } from "./prisma/repositories/prisma-gardens-repository"
+import { PlantsRepository } from "@/domain/garden/repositories/plants-repository"
+import { PrismaPlantsRepository } from "./prisma/repositories/prisma-plants-repository"
 
 @Module({
   providers: [
@@ -16,7 +18,16 @@ import { PrismaGardensRepository } from "./prisma/repositories/prisma-gardens-re
       provide: GardensRepository,
       useClass: PrismaGardensRepository,
     },
+    {
+      provide: PlantsRepository,
+      useClass: PrismaPlantsRepository,
+    },
   ],
-  exports: [PrismaService, GardenersRepository, GardensRepository],
+  exports: [
+    PrismaService,
+    GardenersRepository,
+    GardensRepository,
+    PlantsRepository,
+  ],
 })
 export class DatabaseModule {}

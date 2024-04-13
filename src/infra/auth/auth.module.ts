@@ -19,6 +19,7 @@ import { JwtStrategy } from "./jwt.strategy"
 
         return {
           signOptions: {
+            expiresIn: "1d",
             algorithm: "RS256",
           },
           privateKey: Buffer.from(privateKey, "base64"),

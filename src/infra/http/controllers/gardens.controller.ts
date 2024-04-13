@@ -18,6 +18,7 @@ import {
 } from "@nestjs/common"
 import { z } from "zod"
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe"
+import { GardenPresenter } from "../presenters/garden-presenter"
 
 const createGardenBodySchema = z.object({
   name: z.string().trim(),
@@ -56,6 +57,10 @@ export class GardensController {
 
     if (result.isLeft()) {
       throw new BadRequestException()
+    }
+
+    return {
+      garden: GardenPresenter.toHttp(result.value.garden),
     }
   }
 

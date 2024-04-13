@@ -8,16 +8,35 @@ import { GardensController } from "./controllers/gardens.controller"
 import { CreateGardenUseCase } from "@/domain/garden/use-cases/create-garden"
 import { EditGardenUseCase } from "@/domain/garden/use-cases/edit-garden"
 import { DeleteGardenUseCase } from "@/domain/garden/use-cases/delete-garden"
+import { PlantOnGardenUseCase } from "@/domain/garden/use-cases/plant-on-garden"
+import { PlantOnGardenController } from "./controllers/plant-on-garden.controller"
+import { GetGardenerProfileController } from "./controllers/get-gardener-profile.controller"
+import { GetGardenerProfileUseCase } from "@/domain/garden/use-cases/get-gardener-profile"
+import { FetchPublicGardensController } from "./controllers/fetch-public-gardens.controller"
+import { FetchPublicGardensUseCase } from "@/domain/garden/use-cases/fetch-public-gardens"
+import { FetchUserGardensController } from "./controllers/fetch-user-gardens.controller"
+import { FetchUserGardensUseCase } from "@/domain/garden/use-cases/fetch-user-gardens"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
-  controllers: [GardenersController, GardensController],
+  controllers: [
+    GardenersController,
+    GardensController,
+    PlantOnGardenController,
+    GetGardenerProfileController,
+    FetchPublicGardensController,
+    FetchUserGardensController,
+  ],
   providers: [
     AuthenticateGardenerUseCase,
     RegisterGardenerUseCase,
     CreateGardenUseCase,
     EditGardenUseCase,
     DeleteGardenUseCase,
+    PlantOnGardenUseCase,
+    GetGardenerProfileUseCase,
+    FetchPublicGardensUseCase,
+    FetchUserGardensUseCase,
   ],
 })
 export class HttpModule {}

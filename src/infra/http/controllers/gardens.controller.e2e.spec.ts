@@ -45,6 +45,11 @@ describe("Gardens [E2E]", () => {
       })
 
     expect(response.statusCode).toBe(201)
+    expect(response.body.garden).toEqual(
+      expect.objectContaining({
+        name: "Javascript's garden",
+      }),
+    )
 
     const gardenOnDatabase = await prisma.garden.findFirst({
       where: {
@@ -71,6 +76,12 @@ describe("Gardens [E2E]", () => {
       })
 
     expect(response.statusCode).toBe(201)
+    expect(response.body.garden).toEqual(
+      expect.objectContaining({
+        name: "Javascript's garden 2",
+        visibility: "private",
+      }),
+    )
 
     const gardenOnDatabase = await prisma.garden.findFirst({
       where: {

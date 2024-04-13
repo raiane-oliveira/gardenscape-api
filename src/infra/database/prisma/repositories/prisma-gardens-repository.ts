@@ -57,6 +57,9 @@ export class PrismaGardensRepository implements GardensRepository {
   ): Promise<Garden[]> {
     const gardens = await this.prisma.garden.findMany({
       where: { visibility: visibility === "private" ? "PRIVATE" : "PUBLIC" },
+      orderBy: {
+        createdAt: "desc",
+      },
       take: 20,
       skip: (params.page - 1) * 20,
     })
@@ -70,6 +73,9 @@ export class PrismaGardensRepository implements GardensRepository {
   ): Promise<Garden[]> {
     const gardens = await this.prisma.garden.findMany({
       where: { userId: gardenerId },
+      orderBy: {
+        createdAt: "desc",
+      },
       take: 20,
       skip: (params.page - 1) * 20,
     })
