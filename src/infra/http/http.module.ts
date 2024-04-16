@@ -16,6 +16,10 @@ import { FetchPublicGardensController } from "./controllers/fetch-public-gardens
 import { FetchPublicGardensUseCase } from "@/domain/garden/use-cases/fetch-public-gardens"
 import { FetchUserGardensController } from "./controllers/fetch-user-gardens.controller"
 import { FetchUserGardensUseCase } from "@/domain/garden/use-cases/fetch-user-gardens"
+import { GetUserGardenBySlugUseCase } from "@/domain/garden/use-cases/get-user-garden-by-slug"
+import { GetPublicGardenBySlugUseCase } from "@/domain/garden/use-cases/get-public-garden-by-slug"
+import { PlantsController } from "./controllers/plants.controller"
+import { TrefleApi } from "@/utils/trefle-api"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -26,6 +30,7 @@ import { FetchUserGardensUseCase } from "@/domain/garden/use-cases/fetch-user-ga
     GetGardenerProfileController,
     FetchPublicGardensController,
     FetchUserGardensController,
+    PlantsController,
   ],
   providers: [
     AuthenticateGardenerUseCase,
@@ -37,6 +42,9 @@ import { FetchUserGardensUseCase } from "@/domain/garden/use-cases/fetch-user-ga
     GetGardenerProfileUseCase,
     FetchPublicGardensUseCase,
     FetchUserGardensUseCase,
+    GetUserGardenBySlugUseCase,
+    GetPublicGardenBySlugUseCase,
+    TrefleApi,
   ],
 })
 export class HttpModule {}

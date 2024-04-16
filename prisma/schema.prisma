@@ -41,7 +41,7 @@ model Garden {
   updatedAt  DateTime?        @map("updated_at")
   userId     String           @map("user_id")
 
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   plantOnGarden PlantOnGarden[]
 
   @@map("gardens")
@@ -53,7 +53,7 @@ model PlantOnGarden {
   gardenId  String   @map("garden_id")
   plantedAt DateTime @default(now()) @map("planted_at")
 
-  garden Garden @relation(fields: [gardenId], references: [id])
+  garden Garden @relation(fields: [gardenId], references: [id], onDelete: Cascade)
 
   @@map("plants_on_garden")
 }

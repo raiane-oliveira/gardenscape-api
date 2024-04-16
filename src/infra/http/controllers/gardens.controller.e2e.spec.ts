@@ -30,6 +30,33 @@ describe("Gardens [E2E]", () => {
     await app.init()
   })
 
+  test("[GET] /gardens/:slug (get user garden)", async () => {
+    const user = await gardenerFactory.makePrismaGardener()
+    const accessToken = jwt.sign({
+      sub: user.id.toString(),
+      username: user.username,
+    })
+
+    const garden = await gardenFactory.makePrismaGarden({
+      name: "Garden 01",
+      gardenerId: user.id,
+    })
+
+    const response = await request(app.getHttpServer())
+      .get(`/gardens/${garden.slug.value}`)
+      .set("Authorization", `Bearer ${accessToken}`)
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body.garden).toEqual(
+      expect.objectContaining({
+        name: "Garden 01",
+        gardener: expect.objectContaining({
+          id: user.id.toString(),
+        }),
+      }),
+    )
+  })
+
   test("[POST] /gardens (create garden)", async () => {
     const user = await gardenerFactory.makePrismaGardener()
     const accessToken = jwt.sign({

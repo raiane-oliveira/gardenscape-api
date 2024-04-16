@@ -25,6 +25,7 @@ export class PrismaGardenMapper {
       visibility: garden.visibility === "public" ? "PUBLIC" : "PRIVATE",
       slug: garden.slug.value,
       userId: garden.gardenerId.toString(),
+      updatedAt: garden.updatedAt,
     }
   }
 }

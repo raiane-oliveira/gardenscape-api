@@ -10,6 +10,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   Param,
   Post,
@@ -19,6 +20,10 @@ import {
 import { z } from "zod"
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe"
 import { GardenPresenter } from "../presenters/garden-presenter"
+import { GetUserGardenBySlugUseCase } from "@/domain/garden/use-cases/get-user-garden-by-slug"
+import { GardenDetailsPresenter } from "../presenters/garden-details-presenter"
+import { Public } from "@/infra/auth/public"
+import { GetPublicGardenBySlugUseCase } from "@/domain/garden/use-cases/get-public-garden-by-slug"
 
 const createGardenBodySchema = z.object({
   name: z.string().trim(),
@@ -36,10 +41,47 @@ type EditGardenBodySchema = z.infer<typeof editGardenBodySchema>
 @Controller("/gardens")
 export class GardensController {
   constructor(
+    private getPublicGarden: GetPublicGardenBySlugUseCase,
+    private getUserGarden: GetUserGardenBySlugUseCase,
     private createGarden: CreateGardenUseCase,
     private deleteGarden: DeleteGardenUseCase,
     private editGarden: EditGardenUseCase,
   ) {}
+
+  @Get("/:slug")
+  async getGardenHandler(
+    @Param("slug") slug: string,
+    @CurrentUser() user: UserPayload,
+  ) {
+    const result = await this.getUserGarden.execute({
+      slug,
+      gardenerId: user.sub,
+    })
+
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
+
+    return {
+      garden: GardenDetailsPresenter.toHttp(result.value.garden),
+    }
+  }
+
+  @Get("/public/:slug")
+  @Public()
+  async getPublicGardenHandler(@Param("slug") slug: string) {
+    const result = await this.getPublicGarden.execute({
+      slug,
+    })
+
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
+
+    return {
+      garden: GardenDetailsPresenter.toHttp(result.value.garden),
+    }
+  }
 
   @Post()
   async createGardenHandler(

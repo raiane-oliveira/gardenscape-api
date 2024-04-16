@@ -5,6 +5,8 @@ export const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   JWT_PRIVATE_KEY: z.string(),
   JWT_PUBLIC_KEY: z.string(),
+  TREFLE_BASE_API_URL: z.string().url(),
+  TREFLE_API_TOKEN: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>
