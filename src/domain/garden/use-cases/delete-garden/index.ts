@@ -11,7 +11,7 @@ interface DeleteGardenUseCaseRequest {
 
 type DeleteGardenUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
-  {}
+  object
 >
 
 @Injectable()

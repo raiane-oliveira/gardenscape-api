@@ -6,15 +6,20 @@ import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
 import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-on-garden-error"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
+import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
 
 let plantsRepository: InMemoryPlantsRepository
+let gardenersRepository: InMemoryGardenersRepository
 let gardensRepository: InMemoryGardensRepository
 let sut: PlantOnGardenUseCase
 
 describe("Plant on Garden Use Case", () => {
   beforeEach(() => {
     plantsRepository = new InMemoryPlantsRepository()
-    gardensRepository = new InMemoryGardensRepository(plantsRepository)
+    gardensRepository = new InMemoryGardensRepository(
+      plantsRepository,
+      gardenersRepository,
+    )
     sut = new PlantOnGardenUseCase(plantsRepository, gardensRepository)
   })
 

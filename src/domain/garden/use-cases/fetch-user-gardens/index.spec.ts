@@ -2,13 +2,20 @@ import { InMemoryGardensRepository } from "@/test/repositories/in-memory-gardens
 import { FetchUserGardensUseCase } from "."
 import { makeGarden } from "@/test/factories/make-garden"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
+import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
+import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
 
 let gardensRepository: InMemoryGardensRepository
+let gardenersRepository: InMemoryGardenersRepository
+let plantsRepository: InMemoryPlantsRepository
 let sut: FetchUserGardensUseCase
 
 describe("Fetch User Gardens Use Case", () => {
   beforeEach(() => {
-    gardensRepository = new InMemoryGardensRepository()
+    gardensRepository = new InMemoryGardensRepository(
+      plantsRepository,
+      gardenersRepository,
+    )
     sut = new FetchUserGardensUseCase(gardensRepository)
   })
 

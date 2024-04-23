@@ -4,13 +4,20 @@ import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { makeGarden } from "@/test/factories/make-garden"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
+import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
+import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
 
 let gardensRepository: InMemoryGardensRepository
+let gardenersRepository: InMemoryGardenersRepository
+let plantsRepository: InMemoryPlantsRepository
 let sut: DeleteGardenUseCase
 
 describe("Delete Garden Use Case", () => {
   beforeEach(() => {
-    gardensRepository = new InMemoryGardensRepository()
+    gardensRepository = new InMemoryGardensRepository(
+      plantsRepository,
+      gardenersRepository,
+    )
     sut = new DeleteGardenUseCase(gardensRepository)
   })
 

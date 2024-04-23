@@ -1,12 +1,19 @@
 import { InMemoryGardensRepository } from "@/test/repositories/in-memory-gardens-repository"
 import { CreateGardenUseCase } from "."
+import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
+import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
 
 let gardensRepository: InMemoryGardensRepository
+let gardenersRepository: InMemoryGardenersRepository
+let plantsRepository: InMemoryPlantsRepository
 let sut: CreateGardenUseCase
 
 describe("Create Garden Use Case", () => {
   beforeEach(() => {
-    gardensRepository = new InMemoryGardensRepository()
+    gardensRepository = new InMemoryGardensRepository(
+      plantsRepository,
+      gardenersRepository,
+    )
     sut = new CreateGardenUseCase(gardensRepository)
   })
 

@@ -17,7 +17,10 @@ let sut: GetUserGardenBySlugUseCase
 describe("Get User Garden by Slug use Case", () => {
   beforeEach(() => {
     plantsRepository = new InMemoryPlantsRepository()
-    gardenersRepository = new InMemoryGardenersRepository()
+    gardenersRepository = new InMemoryGardenersRepository(
+      gardensRepository,
+      plantsRepository,
+    )
     gardensRepository = new InMemoryGardensRepository(
       plantsRepository,
       gardenersRepository,

@@ -54,7 +54,7 @@ export class PrismaGardensRepository implements GardensRepository {
   async findManyByVisibility(
     visibility: GardenVisibility,
     params: PaginationParams,
-  ): Promise<Garden[]> {
+  ) {
     const gardens = await this.prisma.garden.findMany({
       where: { visibility: visibility === "private" ? "PRIVATE" : "PUBLIC" },
       orderBy: {
@@ -62,9 +62,13 @@ export class PrismaGardensRepository implements GardensRepository {
       },
       take: 20,
       skip: (params.page - 1) * 20,
+      include: {
+        user: true,
+        plantOnGarden: true,
+      },
     })
 
-    return gardens.map(PrismaGardenMapper.toDomain)
+    return gardens.map(PrismaGardenDetailsMapper.toDomain)
   }
 
   async findManyByGardenerId(

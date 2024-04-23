@@ -1,7 +1,7 @@
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { GardenerDetails } from "./gardener-details"
 import { Slug } from "./slug"
-import { Garden } from "../garden"
+import { GardenDetails } from "./garden-details"
 
 test("it should be able to create a gardener with details", () => {
   const gardener = GardenerDetails.create({
@@ -11,16 +11,20 @@ test("it should be able to create a gardener with details", () => {
     email: "johndoe@gmail.com",
     createdAt: new Date(),
     gardens: [
-      Garden.create(
-        {
-          name: "Javascript",
-          gardenerId: new UniqueEntityId("gardener-01"),
-          slug: Slug.create("javascript"),
-          visibility: "public",
-          createdAt: new Date(),
+      GardenDetails.create({
+        gardenId: new UniqueEntityId("garden-01"),
+        name: "Javascript",
+        gardener: {
+          id: new UniqueEntityId("gardener-01"),
+          name: "John Doe",
+          username: "johndoe",
         },
-        new UniqueEntityId("garden-01"),
-      ),
+        slug: Slug.create("javascript"),
+        visibility: "public",
+        plants: [],
+        createdAt: new Date(),
+        updatedAt: null,
+      }),
     ],
   })
 
@@ -28,7 +32,7 @@ test("it should be able to create a gardener with details", () => {
   expect(gardener.gardens).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        id: new UniqueEntityId("garden-01"),
+        gardenId: new UniqueEntityId("garden-01"),
         name: "Javascript",
       }),
     ]),

@@ -1,13 +1,13 @@
 import { ValueObject } from "@/core/entities/value-object"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
-import { Garden } from "../garden"
+import { GardenDetails } from "./garden-details"
 
 interface GardenerDetailsProps {
   gardenerId: UniqueEntityId
   name: string
   username: string
   email: string
-  gardens: Garden[]
+  gardens: GardenDetails[]
   createdAt: Date
   updatedAt?: Date | null
 }

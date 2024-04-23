@@ -9,7 +9,7 @@ export abstract class GardensRepository {
   abstract findManyByVisibility(
     visibility: GardenVisibility,
     params: PaginationParams,
-  ): Promise<Garden[]>
+  ): Promise<GardenDetails[]>
   abstract findManyByGardenerId(
     gardenerId: string,
     params: PaginationParams,

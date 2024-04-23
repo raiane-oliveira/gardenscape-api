@@ -21,6 +21,7 @@ export class PrismaGardenDetailsMapper {
       gardener: {
         id: new UniqueEntityId(raw.userId),
         name: raw.user.name,
+        username: raw.user.username,
       },
       plants: raw.plantOnGarden.map(PrismaPlantMapper.toDomain),
       name: raw.name,

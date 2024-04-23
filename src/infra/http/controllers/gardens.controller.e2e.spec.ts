@@ -3,6 +3,7 @@ import { DatabaseModule } from "@/infra/database/database.module"
 import { PrismaService } from "@/infra/database/prisma/prisma.service"
 import { GardenFactory } from "@/test/factories/make-garden"
 import { GardenerFactory } from "@/test/factories/make-gardener"
+import { PlantFactory } from "@/test/factories/make-plant"
 import { INestApplication } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { Test } from "@nestjs/testing"
@@ -13,18 +14,20 @@ describe("Gardens [E2E]", () => {
   let prisma: PrismaService
   let gardenerFactory: GardenerFactory
   let gardenFactory: GardenFactory
+  let plantFactory: PlantFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [GardenerFactory, GardenFactory],
+      providers: [GardenerFactory, GardenFactory, PlantFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     prisma = moduleRef.get(PrismaService)
     gardenerFactory = moduleRef.get(GardenerFactory)
     gardenFactory = moduleRef.get(GardenFactory)
+    plantFactory = moduleRef.get(PlantFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
@@ -42,6 +45,11 @@ describe("Gardens [E2E]", () => {
       gardenerId: user.id,
     })
 
+    plantFactory.makePrismaPlant({
+      plantId: "1",
+      gardenId: garden.id,
+    })
+
     const response = await request(app.getHttpServer())
       .get(`/gardens/${garden.slug.value}`)
       .set("Authorization", `Bearer ${accessToken}`)
@@ -53,6 +61,11 @@ describe("Gardens [E2E]", () => {
         gardener: expect.objectContaining({
           id: user.id.toString(),
         }),
+        plants: expect.arrayContaining([
+          expect.objectContaining({
+            plantId: "1",
+          }),
+        ]),
       }),
     )
   })

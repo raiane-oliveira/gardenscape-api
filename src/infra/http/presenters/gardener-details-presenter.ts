@@ -1,5 +1,5 @@
 import { GardenerDetails } from "@/domain/garden/entities/value-objects/gardener-details"
-import { GardenPresenter } from "./garden-presenter"
+import { GardenDetailsPresenter } from "./garden-details-presenter"
 
 export class GardenerDetailsPresenter {
   static toHttp(gardener: GardenerDetails) {
@@ -10,7 +10,7 @@ export class GardenerDetailsPresenter {
       username: gardener.username,
       createdAt: gardener.createdAt,
       updatedAt: gardener.updatedAt,
-      gardens: gardener.gardens.map(GardenPresenter.toHttp),
+      gardens: gardener.gardens.map(GardenDetailsPresenter.toHttp),
     }
   }
 }

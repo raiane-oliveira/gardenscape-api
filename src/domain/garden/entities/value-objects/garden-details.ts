@@ -9,6 +9,7 @@ interface GardenDetailsProps {
   gardener: {
     id: UniqueEntityId
     name: string
+    username: string
   }
   name: string
   slug: Slug

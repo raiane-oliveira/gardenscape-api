@@ -2,14 +2,21 @@ import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-garde
 import { RegisterGardenerUseCase } from "."
 import { FakeHasher } from "@/test/cryptography/fake-hasher"
 import { GardenerAlreadyExistsError } from "@/core/errors/gardener-already-exists-error"
+import { InMemoryGardensRepository } from "@/test/repositories/in-memory-gardens-repository"
+import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
 
 let fakeHasher: FakeHasher
 let gardenersRepository: InMemoryGardenersRepository
+let gardensRepository: InMemoryGardensRepository
+let plantsRepository: InMemoryPlantsRepository
 let sut: RegisterGardenerUseCase
 
 describe("Register Gardener Use Case", () => {
   beforeEach(() => {
-    gardenersRepository = new InMemoryGardenersRepository()
+    gardenersRepository = new InMemoryGardenersRepository(
+      gardensRepository,
+      plantsRepository,
+    )
     fakeHasher = new FakeHasher()
     sut = new RegisterGardenerUseCase(gardenersRepository, fakeHasher)
   })

@@ -49,9 +49,15 @@ describe("Fetch Public Gardens [E2E]", () => {
       expect.arrayContaining([
         expect.objectContaining({
           name: "garden 1",
+          gardener: expect.objectContaining({
+            id: user.id.toString(),
+          }),
         }),
         expect.objectContaining({
           name: "garden 2",
+          gardener: expect.objectContaining({
+            id: user.id.toString(),
+          }),
         }),
       ]),
     )

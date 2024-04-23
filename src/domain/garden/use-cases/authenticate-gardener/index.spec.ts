@@ -3,14 +3,21 @@ import { AuthenticateGardenerUseCase } from "."
 import { FakeHasher } from "@/test/cryptography/fake-hasher"
 import { makeGardener } from "@/test/factories/make-gardener"
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error"
+import { InMemoryGardensRepository } from "@/test/repositories/in-memory-gardens-repository"
+import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
 
 let fakeHasher: FakeHasher
 let gardenersRepository: InMemoryGardenersRepository
+let gardensRepository: InMemoryGardensRepository
+let plantsRepository: InMemoryPlantsRepository
 let sut: AuthenticateGardenerUseCase
 
 describe("Authenticate Gardener Use Case", () => {
   beforeEach(() => {
-    gardenersRepository = new InMemoryGardenersRepository()
+    gardenersRepository = new InMemoryGardenersRepository(
+      gardensRepository,
+      plantsRepository,
+    )
     fakeHasher = new FakeHasher()
     sut = new AuthenticateGardenerUseCase(gardenersRepository, fakeHasher)
   })
