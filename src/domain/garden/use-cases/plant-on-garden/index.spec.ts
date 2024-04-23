@@ -4,6 +4,8 @@ import { InMemoryGardensRepository } from "@/test/repositories/in-memory-gardens
 import { makeGarden } from "@/test/factories/make-garden"
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
+import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-on-garden-error"
+import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 
 let plantsRepository: InMemoryPlantsRepository
 let gardensRepository: InMemoryGardensRepository
@@ -12,7 +14,7 @@ let sut: PlantOnGardenUseCase
 describe("Plant on Garden Use Case", () => {
   beforeEach(() => {
     plantsRepository = new InMemoryPlantsRepository()
-    gardensRepository = new InMemoryGardensRepository()
+    gardensRepository = new InMemoryGardensRepository(plantsRepository)
     sut = new PlantOnGardenUseCase(plantsRepository, gardensRepository)
   })
 
@@ -67,5 +69,27 @@ describe("Plant on Garden Use Case", () => {
     if (result.isLeft()) {
       expect(result.value.constructor).toBe(NotAllowedError)
     }
+  })
+
+  it("should not be able to plant on same garden twice", async () => {
+    const garden = makeGarden({
+      gardenerId: new UniqueEntityId("user-01"),
+    })
+    gardensRepository.create(garden)
+
+    await sut.execute({
+      plantId: "plant-01",
+      gardenId: garden.id.toString(),
+      gardenerId: "user-01",
+    })
+
+    const result = await sut.execute({
+      plantId: "plant-01",
+      gardenId: garden.id.toString(),
+      gardenerId: "user-01",
+    })
+
+    expect(result.isLeft())
+    expect(result.value.constructor).toBe(PlantAlreadyExistsOnGarden)
   })
 })

@@ -2,6 +2,7 @@ import { PlantOnGardenUseCase } from "@/domain/garden/use-cases/plant-on-garden"
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Controller,
   Param,
   Post,
@@ -12,6 +13,7 @@ import { ZodValidationPipe } from "../pipes/zod-validation-pipe"
 import { CurrentUser } from "@/infra/auth/current-user-decorator"
 import { UserPayload } from "@/infra/auth/jwt.strategy"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
+import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-on-garden-error"
 
 const plantOnGardenBodySchema = z.object({
   plantId: z.coerce.string(),
@@ -44,6 +46,8 @@ export class PlantOnGardenController {
       switch (error.constructor) {
         case NotAllowedError:
           throw new UnauthorizedException(error.message)
+        case PlantAlreadyExistsOnGarden:
+          throw new ConflictException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

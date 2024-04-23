@@ -5,6 +5,7 @@ import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
 import { NotAllowedError } from "@/core/errors/not-allowed-error"
 import { Plant } from "../../entities/plant"
 import { Injectable } from "@nestjs/common"
+import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-on-garden-error"
 
 interface PlantOnGardenUseCaseRequest {
   plantId: string
@@ -37,6 +38,15 @@ export class PlantOnGardenUseCase {
 
     if (garden.gardenerId.toString() !== gardenerId) {
       return left(new NotAllowedError())
+    }
+
+    const plantExistOnGarden = await this.plantsRepository.findByGardenId(
+      plantId,
+      gardenId,
+    )
+
+    if (plantExistOnGarden) {
+      return left(new PlantAlreadyExistsOnGarden(garden.name))
     }
 
     const plant = Plant.create({

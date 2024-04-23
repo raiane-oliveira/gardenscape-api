@@ -15,4 +15,15 @@ export class InMemoryPlantsRepository implements PlantsRepository {
 
     return plants
   }
+
+  async findByGardenId(plantId: string, gardenId: string) {
+    const plant = this.items.find(
+      (item) =>
+        item.plantId === plantId && item.gardenId.toString() === gardenId,
+    )
+
+    if (!plant) return null
+
+    return plant
+  }
 }

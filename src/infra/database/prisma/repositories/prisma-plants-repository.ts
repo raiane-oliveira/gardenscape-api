@@ -25,4 +25,17 @@ export class PrismaPlantsRepository implements PlantsRepository {
 
     return plants.map(PrismaPlantMapper.toDomain)
   }
+
+  async findByGardenId(plantId: string, gardenId: string) {
+    const plant = await this.prisma.plantOnGarden.findFirst({
+      where: {
+        plantId,
+        gardenId,
+      },
+    })
+
+    if (!plant) return null
+
+    return PrismaPlantMapper.toDomain(plant)
+  }
 }

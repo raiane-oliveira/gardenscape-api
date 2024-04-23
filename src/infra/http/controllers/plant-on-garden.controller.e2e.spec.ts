@@ -86,4 +86,32 @@ describe("Plant On Garden [E2E]", () => {
 
     expect(response.statusCode).toBe(401)
   })
+
+  test("[POST] /gardens/:gardenId/plant (should not be able to plant on same garden twice)", async () => {
+    const user = await gardenerFactory.makePrismaGardener()
+    const accessToken = jwt.sign({
+      sub: user.id.toString(),
+      username: user.username,
+    })
+
+    const garden = await gardenFactory.makePrismaGarden({
+      gardenerId: user.id,
+    })
+
+    await request(app.getHttpServer())
+      .post(`/gardens/${garden.id.toString()}/plant`)
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({
+        plantId: 1,
+      })
+
+    const response = await request(app.getHttpServer())
+      .post(`/gardens/${garden.id.toString()}/plant`)
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({
+        plantId: 1,
+      })
+
+    expect(response.statusCode).toBe(409)
+  })
 })
