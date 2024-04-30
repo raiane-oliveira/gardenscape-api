@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto"
+
 export class Slug {
   public value: string
 
@@ -18,7 +20,7 @@ export class Slug {
    */
   static createFromText(text: string) {
     // normalize => padroniza a string removendo ou substituindo caracteres especiais pelas suas respectivas letras/código
-    const slugText = text
+    const textTransformed = text
       .normalize("NFKD")
       .toLowerCase()
       .trim()
@@ -27,6 +29,8 @@ export class Slug {
       .replace(/_/g, "-")
       .replace(/--+/g, "-")
       .replace(/-$/g, "")
+
+    const slugText = textTransformed.concat(`-${randomUUID()}`)
 
     return new Slug(slugText)
   }
