@@ -56,6 +56,7 @@ describe("Get Gardener Details use Case", () => {
         expect.objectContaining({
           gardenerId: gardener.id,
           username: gardener.username,
+          imageUrl: gardener.imageUrl,
           gardens: expect.arrayContaining([
             expect.objectContaining({
               name: garden.name,

@@ -16,6 +16,7 @@ export class PrismaGardenerDetailsMapper {
       name: raw.name,
       username: raw.username,
       email: raw.email,
+      imageUrl: raw.avatarUrlId,
       gardens: raw.garden.map((garden) =>
         GardenDetails.create({
           gardenId: new UniqueEntityId(garden.id),
@@ -25,6 +26,7 @@ export class PrismaGardenerDetailsMapper {
             id: new UniqueEntityId(raw.id),
             name: raw.name,
             username: raw.username,
+            imageUrl: raw.avatarUrlId,
           },
           visibility: garden.visibility.toLowerCase() as GardenVisibility,
           plants: [],

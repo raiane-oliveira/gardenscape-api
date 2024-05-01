@@ -17,6 +17,14 @@ export class InMemoryGardenersRepository implements GardenersRepository {
     this.items.push(gardener)
   }
 
+  async save(gardener: Gardener) {
+    const gardenerIndex = this.items.findIndex(
+      (item) => item.id.toString() === gardener.id.toString(),
+    )
+
+    this.items[gardenerIndex] = gardener
+  }
+
   async findByEmail(email: string) {
     const gardener = this.items.find((item) => item.email === email)
 
@@ -61,6 +69,7 @@ export class InMemoryGardenersRepository implements GardenersRepository {
           id: gardener.id,
           name: gardener.name,
           username: gardener.username,
+          imageUrl: gardener.imageUrl,
         },
         visibility: garden.visibility,
         plants,
@@ -73,6 +82,7 @@ export class InMemoryGardenersRepository implements GardenersRepository {
       gardenerId: gardener.id,
       name: gardener.name,
       username: gardener.username,
+      imageUrl: gardener.imageUrl,
       email: gardener.email,
       createdAt: gardener.createdAt,
       updatedAt: gardener.updatedAt,

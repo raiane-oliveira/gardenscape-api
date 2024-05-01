@@ -1,5 +1,4 @@
 import {
-  Prisma,
   Garden as PrismaGarden,
   User as PrismaGardener,
   PlantOnGarden as PrismaPlant,
@@ -22,6 +21,7 @@ export class PrismaGardenDetailsMapper {
         id: new UniqueEntityId(raw.userId),
         name: raw.user.name,
         username: raw.user.username,
+        imageUrl: raw.user.avatarUrlId,
       },
       plants: raw.plantOnGarden.map(PrismaPlantMapper.toDomain),
       name: raw.name,
@@ -30,17 +30,5 @@ export class PrismaGardenDetailsMapper {
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
     })
-  }
-
-  static toPrisma(
-    gardenDetails: GardenDetails,
-  ): Prisma.GardenUncheckedCreateInput {
-    return {
-      id: gardenDetails.gardenId.toString(),
-      name: gardenDetails.name,
-      visibility: gardenDetails.visibility === "public" ? "PUBLIC" : "PRIVATE",
-      slug: gardenDetails.slug.value,
-      userId: gardenDetails.gardener.id.toString(),
-    }
   }
 }

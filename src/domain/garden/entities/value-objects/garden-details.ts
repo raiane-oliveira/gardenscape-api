@@ -10,6 +10,7 @@ interface GardenDetailsProps {
     id: UniqueEntityId
     name: string
     username: string
+    imageUrl?: string | null
   }
   name: string
   slug: Slug

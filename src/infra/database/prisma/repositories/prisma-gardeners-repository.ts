@@ -17,6 +17,17 @@ export class PrismaGardenersRepository implements GardenersRepository {
     })
   }
 
+  async save(gardener: Gardener) {
+    const data = PrismaGardenerMapper.toPrisma(gardener)
+
+    await this.prisma.user.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
+  }
+
   async findByEmail(email: string) {
     const gardener = await this.prisma.user.findUnique({
       where: {

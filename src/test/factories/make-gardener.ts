@@ -20,6 +20,7 @@ export function makeGardener(
       }),
       email: faker.internet.email(),
       password: faker.internet.password(),
+      imageUrl: faker.image.avatar(),
       ...override,
     },
     id,

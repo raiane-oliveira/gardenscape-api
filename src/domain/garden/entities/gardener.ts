@@ -7,11 +7,16 @@ export interface GardenerProps {
   username: string
   email: string
   password: string
+  imageUrl?: string | null
   createdAt: Date
   updatedAt?: Date | null
 }
 
 export class Gardener extends Entity<GardenerProps> {
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
   get name() {
     return this.props.name
   }
@@ -34,6 +39,15 @@ export class Gardener extends Entity<GardenerProps> {
 
   get updatedAt() {
     return this.props.updatedAt
+  }
+
+  get imageUrl() {
+    return this.props.imageUrl
+  }
+
+  set imageUrl(url: string | null | undefined) {
+    this.props.imageUrl = url
+    this.touch()
   }
 
   static create(

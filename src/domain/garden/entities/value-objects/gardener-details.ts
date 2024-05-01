@@ -7,6 +7,7 @@ interface GardenerDetailsProps {
   name: string
   username: string
   email: string
+  imageUrl?: string | null
   gardens: GardenDetails[]
   createdAt: Date
   updatedAt?: Date | null
@@ -27,6 +28,10 @@ export class GardenerDetails extends ValueObject<GardenerDetailsProps> {
 
   get email() {
     return this.props.email
+  }
+
+  get imageUrl() {
+    return this.props.imageUrl
   }
 
   get gardens() {

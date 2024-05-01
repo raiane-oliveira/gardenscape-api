@@ -9,6 +9,7 @@ export class PrismaGardenerMapper {
         name: raw.name,
         username: raw.username,
         email: raw.email,
+        imageUrl: raw.avatarUrlId,
         password: raw.password,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
@@ -22,6 +23,7 @@ export class PrismaGardenerMapper {
       id: gardener.id.toString(),
       name: gardener.name,
       username: gardener.username,
+      avatarUrlId: gardener.imageUrl,
       email: gardener.email,
       password: gardener.password,
     }

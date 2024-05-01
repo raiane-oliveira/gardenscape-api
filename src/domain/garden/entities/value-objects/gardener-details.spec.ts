@@ -9,6 +9,7 @@ test("it should be able to create a gardener with details", () => {
     name: "John Doe",
     username: "johndoe",
     email: "johndoe@gmail.com",
+    imageUrl: "",
     createdAt: new Date(),
     gardens: [
       GardenDetails.create({
