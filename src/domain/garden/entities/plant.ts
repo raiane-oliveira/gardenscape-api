@@ -4,6 +4,7 @@ import { Optional } from "@/core/types/optional"
 
 export interface PlantProps {
   plantId: string
+  plantUrl?: string | null
   gardenId: UniqueEntityId
   plantedAt: Date
 }
@@ -19,6 +20,10 @@ export class Plant extends Entity<PlantProps> {
 
   get plantedAt() {
     return this.props.plantedAt
+  }
+
+  get plantUrl() {
+    return this.props.plantUrl
   }
 
   static create(props: Optional<PlantProps, "plantedAt">, id?: UniqueEntityId) {

@@ -7,6 +7,7 @@ import { NotAllowedError } from "@/core/errors/not-allowed-error"
 import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-on-garden-error"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
+import { faker } from "@faker-js/faker"
 
 let plantsRepository: InMemoryPlantsRepository
 let gardenersRepository: InMemoryGardenersRepository
@@ -27,9 +28,12 @@ describe("Plant on Garden Use Case", () => {
     const garden = makeGarden()
     gardensRepository.create(garden)
 
+    const randomImageUrl = faker.image.nature()
+
     const result = await sut.execute({
       plantId: "plant-01",
       gardenId: garden.id.toString(),
+      plantUrl: randomImageUrl,
       gardenerId: garden.gardenerId.toString(),
     })
 
@@ -38,6 +42,7 @@ describe("Plant on Garden Use Case", () => {
     expect(plantsRepository.items[0]).toEqual(
       expect.objectContaining({
         plantId: "plant-01",
+        plantUrl: randomImageUrl,
         gardenId: garden.id,
       }),
     )

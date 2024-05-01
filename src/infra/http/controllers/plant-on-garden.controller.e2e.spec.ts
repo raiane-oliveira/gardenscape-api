@@ -3,6 +3,7 @@ import { DatabaseModule } from "@/infra/database/database.module"
 import { PrismaService } from "@/infra/database/prisma/prisma.service"
 import { GardenFactory } from "@/test/factories/make-garden"
 import { GardenerFactory } from "@/test/factories/make-gardener"
+import { faker } from "@faker-js/faker"
 import { INestApplication } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { Test } from "@nestjs/testing"
@@ -49,6 +50,7 @@ describe("Plant On Garden [E2E]", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .send({
         plantId: 1,
+        plantUrl: faker.image.nature(),
       })
 
     expect(response.statusCode).toBe(201)

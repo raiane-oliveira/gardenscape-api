@@ -17,6 +17,7 @@ import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-o
 
 const plantOnGardenBodySchema = z.object({
   plantId: z.coerce.string(),
+  plantUrl: z.string().url().optional(),
 })
 
 type PlantOnGardenBodySchema = z.infer<typeof plantOnGardenBodySchema>
@@ -32,11 +33,12 @@ export class PlantOnGardenController {
     @Param("gardenId") gardenId: string,
     @CurrentUser() user: UserPayload,
   ) {
-    const { plantId } = body
+    const { plantId, plantUrl } = body
 
     const result = await this.plantOnGarden.execute({
       plantId,
       gardenId,
+      plantUrl,
       gardenerId: user.sub,
     })
 

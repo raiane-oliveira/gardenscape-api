@@ -9,6 +9,7 @@ import { PlantAlreadyExistsOnGarden } from "@/core/errors/plant-already-exists-o
 
 interface PlantOnGardenUseCaseRequest {
   plantId: string
+  plantUrl?: string | null
   gardenId: string
   gardenerId: string
 }
@@ -27,6 +28,7 @@ export class PlantOnGardenUseCase {
 
   async execute({
     plantId,
+    plantUrl,
     gardenId,
     gardenerId,
   }: PlantOnGardenUseCaseRequest): Promise<PlantOnGardenUseCaseResponse> {
@@ -51,6 +53,7 @@ export class PlantOnGardenUseCase {
 
     const plant = Plant.create({
       plantId,
+      plantUrl,
       gardenId: garden.id,
     })
 

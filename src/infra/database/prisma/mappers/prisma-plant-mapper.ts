@@ -7,6 +7,7 @@ export class PrismaPlantMapper {
     return Plant.create(
       {
         plantId: raw.plantId,
+        plantUrl: raw.plantUrl,
         gardenId: new UniqueEntityId(raw.gardenId),
         plantedAt: raw.plantedAt ?? undefined,
       },
@@ -17,6 +18,7 @@ export class PrismaPlantMapper {
   static toPrisma(plant: Plant): Prisma.PlantOnGardenUncheckedCreateInput {
     return {
       plantId: plant.plantId,
+      plantUrl: plant.plantUrl,
       gardenId: plant.gardenId.toString(),
       plantedAt: plant.plantedAt,
     }

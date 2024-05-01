@@ -50,6 +50,7 @@ model Garden {
 
 model PlantOnGarden {
   id        String   @id @default(uuid())
+  plantUrl  String?
   plantId   String
   gardenId  String   @map("garden_id")
   plantedAt DateTime @default(now()) @map("planted_at")

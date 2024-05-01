@@ -4,7 +4,8 @@ export class PlantPresenter {
   static toHttp(plant: Plant) {
     return {
       id: plant.id.toString(),
-      plantId: plant.plantId,
+      plantUrl: plant.plantUrl,
+      plantId: plant.plantId ?? null,
       gardenId: plant.gardenId,
       plantedAt: plant.plantedAt,
     }
