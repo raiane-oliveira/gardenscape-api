@@ -51,6 +51,26 @@ export class PrismaGardensRepository implements GardensRepository {
     return PrismaGardenDetailsMapper.toDomain(garden)
   }
 
+  async findManyDetailsByGardenerId(
+    gardenerId: string,
+    params: PaginationParams,
+  ) {
+    const gardens = await this.prisma.garden.findMany({
+      where: { userId: gardenerId },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 20,
+      skip: (params.page - 1) * 20,
+      include: {
+        user: true,
+        plantOnGarden: true,
+      },
+    })
+
+    return gardens.map(PrismaGardenDetailsMapper.toDomain)
+  }
+
   async findManyByVisibility(
     visibility: GardenVisibility,
     params: PaginationParams,

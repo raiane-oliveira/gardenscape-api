@@ -1,23 +1,16 @@
 import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
 import { UploadAndUpdateAvatarImageUseCase } from "."
-import { InMemoryGardensRepository } from "@/test/repositories/in-memory-gardens-repository"
-import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
 import { FakeUploader } from "@/test/storage/uploader"
 import { makeGardener } from "@/test/factories/make-gardener"
 import { InvalidAttachmentType } from "@/core/errors/invalid-attachment-type-error"
 
 let gardenersRepository: InMemoryGardenersRepository
-let gardensRepository: InMemoryGardensRepository
-let plantsRepository: InMemoryPlantsRepository
 let fakeUploader: FakeUploader
 let sut: UploadAndUpdateAvatarImageUseCase
 
 describe("Upload and Update Avatar Image Use Case", () => {
   beforeEach(() => {
-    gardenersRepository = new InMemoryGardenersRepository(
-      gardensRepository,
-      plantsRepository,
-    )
+    gardenersRepository = new InMemoryGardenersRepository()
     fakeUploader = new FakeUploader()
     sut = new UploadAndUpdateAvatarImageUseCase(
       gardenersRepository,

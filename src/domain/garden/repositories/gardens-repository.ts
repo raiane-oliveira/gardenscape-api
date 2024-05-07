@@ -14,6 +14,10 @@ export abstract class GardensRepository {
     gardenerId: string,
     params: PaginationParams,
   ): Promise<Garden[]>
+  abstract findManyDetailsByGardenerId(
+    gardenerId: string,
+    params: PaginationParams,
+  ): Promise<GardenDetails[]>
 
   abstract create(garden: Garden): Promise<void>
   abstract delete(garden: Garden): Promise<void>

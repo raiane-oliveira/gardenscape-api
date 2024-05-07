@@ -4,6 +4,7 @@ import { makeGarden } from "@/test/factories/make-garden"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { InMemoryGardenersRepository } from "@/test/repositories/in-memory-gardeners-repository"
 import { InMemoryPlantsRepository } from "@/test/repositories/in-memory-plants-repository"
+import { makeGardener } from "@/test/factories/make-gardener"
 
 let gardensRepository: InMemoryGardensRepository
 let gardenersRepository: InMemoryGardenersRepository
@@ -12,6 +13,9 @@ let sut: FetchUserGardensUseCase
 
 describe("Fetch User Gardens Use Case", () => {
   beforeEach(() => {
+    plantsRepository = new InMemoryPlantsRepository()
+    gardenersRepository = new InMemoryGardenersRepository()
+
     gardensRepository = new InMemoryGardensRepository(
       plantsRepository,
       gardenersRepository,
@@ -20,6 +24,9 @@ describe("Fetch User Gardens Use Case", () => {
   })
 
   it("should be able to fetch user gardens", async () => {
+    gardenersRepository.create(makeGardener({}, new UniqueEntityId("user-01")))
+    gardenersRepository.create(makeGardener({}, new UniqueEntityId("user-02")))
+
     gardensRepository.create(
       makeGarden({
         name: "garden 1",
@@ -60,6 +67,8 @@ describe("Fetch User Gardens Use Case", () => {
   })
 
   it("should be able to fetch user gardens by page", async () => {
+    gardenersRepository.create(makeGardener({}, new UniqueEntityId("user-01")))
+
     for (let i = 0; i < 20; i++) {
       gardensRepository.create(makeGarden())
     }

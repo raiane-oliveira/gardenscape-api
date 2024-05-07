@@ -34,7 +34,7 @@ describe("Get Gardener Profile (E2E)", () => {
     expect(response.body.gardener).toEqual(
       expect.objectContaining({
         username: "johndoe",
-        gardens: expect.arrayContaining([]),
+        avatar: expect.any(String),
       }),
     )
   })

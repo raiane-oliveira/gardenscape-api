@@ -3,7 +3,6 @@ import { GardenersRepository } from "@/domain/garden/repositories/gardeners-repo
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "../prisma.service"
 import { PrismaGardenerMapper } from "../mappers/prisma-gardener-mapper"
-import { PrismaGardenerDetailsMapper } from "../mappers/prisma-gardener-details-mapper"
 
 @Injectable()
 export class PrismaGardenersRepository implements GardenersRepository {
@@ -57,7 +56,7 @@ export class PrismaGardenersRepository implements GardenersRepository {
   }
 
   async findDetailsByUsername(username: string) {
-    const gardenerDetails = await this.prisma.user.findUnique({
+    const gardener = await this.prisma.user.findUnique({
       where: {
         username,
       },
@@ -66,10 +65,10 @@ export class PrismaGardenersRepository implements GardenersRepository {
       },
     })
 
-    if (!gardenerDetails) {
+    if (!gardener) {
       return null
     }
 
-    return PrismaGardenerDetailsMapper.toDomain(gardenerDetails)
+    return PrismaGardenerMapper.toDomain(gardener)
   }
 }

@@ -1,7 +1,7 @@
 import { Either, right } from "@/core/either"
 import { GardensRepository } from "../../repositories/gardens-repository"
-import { Garden } from "../../entities/garden"
 import { Injectable } from "@nestjs/common"
+import { GardenDetails } from "../../entities/value-objects/garden-details"
 
 interface FetchUserGardensUseCaseRequest {
   gardenerId: string
@@ -11,7 +11,7 @@ interface FetchUserGardensUseCaseRequest {
 type FetchUserGardensUseCaseResponse = Either<
   null,
   {
-    gardens: Garden[]
+    gardens: GardenDetails[]
   }
 >
 
@@ -23,7 +23,7 @@ export class FetchUserGardensUseCase {
     gardenerId,
     page,
   }: FetchUserGardensUseCaseRequest): Promise<FetchUserGardensUseCaseResponse> {
-    const gardens = await this.gardensRepository.findManyByGardenerId(
+    const gardens = await this.gardensRepository.findManyDetailsByGardenerId(
       gardenerId,
       {
         page,

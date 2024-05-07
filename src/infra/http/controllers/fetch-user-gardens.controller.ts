@@ -1,10 +1,10 @@
 import { BadRequestException, Controller, Get, Query } from "@nestjs/common"
 import { z } from "zod"
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe"
-import { GardenPresenter } from "../presenters/garden-presenter"
 import { FetchUserGardensUseCase } from "@/domain/garden/use-cases/fetch-user-gardens"
 import { CurrentUser } from "@/infra/auth/current-user-decorator"
 import { UserPayload } from "@/infra/auth/jwt.strategy"
+import { GardenDetailsPresenter } from "../presenters/garden-details-presenter"
 
 const pageQueryParamSchema = z
   .string()
@@ -36,7 +36,7 @@ export class FetchUserGardensController {
     }
 
     return {
-      gardens: result.value.gardens.map(GardenPresenter.toHttp),
+      gardens: result.value.gardens.map(GardenDetailsPresenter.toHttp),
     }
   }
 }

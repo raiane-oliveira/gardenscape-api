@@ -116,6 +116,44 @@ export class InMemoryGardensRepository implements GardensRepository {
     return gardens
   }
 
+  async findManyDetailsByGardenerId(
+    gardenerId: string,
+    params: PaginationParams,
+  ) {
+    const gardens = this.items
+      .filter((item) => item.gardenerId.toString() === gardenerId)
+      .slice((params.page - 1) * 20, params.page * 20)
+
+    return gardens.map((garden) => {
+      const gardener = this.gardenersRepository.items.find(
+        (item) => item.id.toString() === garden.gardenerId.toString(),
+      )
+
+      if (!gardener) {
+        throw new Error(`Gardener does not exists.`)
+      }
+
+      const plants = this.plantsRepository.items.filter(
+        (item) => item.gardenId.toString() === garden.id.toString(),
+      )
+
+      return GardenDetails.create({
+        gardenId: garden.id,
+        name: garden.name,
+        slug: garden.slug,
+        visibility: garden.visibility,
+        gardener: {
+          id: gardener.id,
+          name: gardener.name,
+          username: gardener.username,
+        },
+        plants,
+        createdAt: garden.createdAt,
+        updatedAt: garden.updatedAt,
+      })
+    })
+  }
+
   async create(garden: Garden) {
     this.items.push(garden)
   }

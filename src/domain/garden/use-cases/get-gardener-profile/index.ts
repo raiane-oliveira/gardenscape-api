@@ -1,8 +1,8 @@
 import { Either, left, right } from "@/core/either"
 import { GardenersRepository } from "../../repositories/gardeners-repository"
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error"
-import { GardenerDetails } from "../../entities/value-objects/gardener-details"
 import { Injectable } from "@nestjs/common"
+import { Gardener } from "../../entities/gardener"
 
 interface GetGardenerProfileUseCaseRequest {
   username: string
@@ -11,7 +11,7 @@ interface GetGardenerProfileUseCaseRequest {
 type GetGardenerProfileUseCaseResponse = Either<
   ResourceNotFoundError,
   {
-    gardener: GardenerDetails
+    gardener: Gardener
   }
 >
 
@@ -22,8 +22,7 @@ export class GetGardenerProfileUseCase {
   async execute({
     username,
   }: GetGardenerProfileUseCaseRequest): Promise<GetGardenerProfileUseCaseResponse> {
-    const gardener =
-      await this.gardenersRepository.findDetailsByUsername(username)
+    const gardener = await this.gardenersRepository.findByUsername(username)
 
     if (!gardener) {
       return left(new ResourceNotFoundError())

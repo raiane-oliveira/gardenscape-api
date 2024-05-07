@@ -1,7 +1,7 @@
 import { GetGardenerProfileUseCase } from "@/domain/garden/use-cases/get-gardener-profile"
 import { Public } from "@/infra/auth/public"
 import { BadRequestException, Controller, Get, Param } from "@nestjs/common"
-import { GardenerDetailsPresenter } from "../presenters/gardener-details-presenter"
+import { GardenerPresenter } from "../presenters/gardener-presenter"
 
 @Controller()
 export class GetGardenerProfileController {
@@ -19,7 +19,7 @@ export class GetGardenerProfileController {
     }
 
     return {
-      gardener: GardenerDetailsPresenter.toHttp(result.value.gardener),
+      gardener: GardenerPresenter.toHttp(result.value.gardener),
     }
   }
 }
