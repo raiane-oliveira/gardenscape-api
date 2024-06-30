@@ -28,7 +28,7 @@ describe("Plant on Garden Use Case", () => {
     const garden = makeGarden()
     gardensRepository.create(garden)
 
-    const randomImageUrl = faker.image.nature()
+    const randomImageUrl = faker.image.url()
 
     const result = await sut.execute({
       plantId: "plant-01",

@@ -11,7 +11,7 @@ export function makePlant(override?: Partial<PlantProps>, id?: UniqueEntityId) {
     {
       plantId: randomUUID(),
       gardenId: new UniqueEntityId(),
-      plantUrl: faker.image.nature(),
+      plantUrl: faker.image.urlLoremFlickr({ category: "nature" }),
       ...override,
     },
     id,

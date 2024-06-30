@@ -50,7 +50,7 @@ describe("Plant On Garden [E2E]", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .send({
         plantId: 1,
-        plantUrl: faker.image.nature(),
+        plantUrl: faker.image.imageUrl(),
       })
 
     expect(response.statusCode).toBe(201)
