@@ -23,9 +23,12 @@ import { TrefleApi } from "@/utils/trefle-api"
 import { UploadGardenerAvatarController } from "./controllers/upload-gardener-avatar.controller"
 import { UploadAndUpdateAvatarImageUseCase } from "@/domain/garden/use-cases/upload-and-update-avatar-image"
 import { StorageModule } from "../storage/storage.module"
+import { FetchProductsController } from "./controllers/fetch-products.controller"
+import { FetchProductsUseCase } from "@/domain/billing/use-cases/fetch-products"
+import { PaymentModule } from "../payment/payment.module"
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, StorageModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule, PaymentModule],
   controllers: [
     GardenersController,
     GardensController,
@@ -35,6 +38,7 @@ import { StorageModule } from "../storage/storage.module"
     FetchUserGardensController,
     PlantsController,
     UploadGardenerAvatarController,
+    FetchProductsController,
   ],
   providers: [
     AuthenticateGardenerUseCase,
@@ -50,6 +54,7 @@ import { StorageModule } from "../storage/storage.module"
     GetPublicGardenBySlugUseCase,
     TrefleApi,
     UploadAndUpdateAvatarImageUseCase,
+    FetchProductsUseCase,
   ],
 })
 export class HttpModule {}
