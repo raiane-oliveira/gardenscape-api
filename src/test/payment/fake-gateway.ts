@@ -4,6 +4,7 @@ import { makeProduct } from "../factories/make-product"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { Feature } from "@/domain/billing/entities/feature"
 import { ProductWithFeatures } from "@/domain/billing/entities/value-objects/product-with-features"
+import { Checkout } from "@/domain/billing/entities/checkout"
 
 export class FakePaymentGateway implements PaymentGateway {
   items: Product[] = [
@@ -54,6 +55,12 @@ export class FakePaymentGateway implements PaymentGateway {
         features:
           product.id.toString() === "product-01" ? [feature1] : [feature2],
       })
+    })
+  }
+
+  async createCheckout(): Promise<Checkout> {
+    return Checkout.create({
+      url: "http://faker-url.com",
     })
   }
 }

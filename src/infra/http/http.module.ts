@@ -26,6 +26,8 @@ import { StorageModule } from "../storage/storage.module"
 import { FetchProductsController } from "./controllers/fetch-products.controller"
 import { FetchProductsUseCase } from "@/domain/billing/use-cases/fetch-products"
 import { PaymentModule } from "../payment/payment.module"
+import { CreateCheckoutPaymentController } from "./controllers/create-checkout-payment.controller"
+import { CreateCheckoutUseCase } from "@/domain/billing/use-cases/create-checkout"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, PaymentModule],
@@ -39,6 +41,7 @@ import { PaymentModule } from "../payment/payment.module"
     PlantsController,
     UploadGardenerAvatarController,
     FetchProductsController,
+    CreateCheckoutPaymentController,
   ],
   providers: [
     AuthenticateGardenerUseCase,
@@ -55,6 +58,7 @@ import { PaymentModule } from "../payment/payment.module"
     TrefleApi,
     UploadAndUpdateAvatarImageUseCase,
     FetchProductsUseCase,
+    CreateCheckoutUseCase,
   ],
 })
 export class HttpModule {}

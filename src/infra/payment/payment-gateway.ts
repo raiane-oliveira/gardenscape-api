@@ -7,13 +7,14 @@ import { Product } from "@/domain/billing/entities/product"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { Injectable } from "@nestjs/common"
 import { ProductWithFeatures } from "@/domain/billing/entities/value-objects/product-with-features"
+import { Checkout } from "@/domain/billing/entities/checkout"
 
 @Injectable()
 export class StripePaymentGateway implements PaymentGateway {
   private gateway: Stripe
 
-  constructor(envService: ConfigService<Env, true>) {
-    this.gateway = new Stripe(envService.get("STRIPE_SECRET_KEY"), {
+  constructor(private envService: ConfigService<Env, true>) {
+    this.gateway = new Stripe(this.envService.get("STRIPE_SECRET_KEY"), {
       appInfo: {
         name: "Gardenscape",
       },
@@ -93,6 +94,37 @@ export class StripePaymentGateway implements PaymentGateway {
           })
         }),
       })
+    })
+  }
+
+  async createCheckout(productId: string) {
+    const product = await this.gateway.products.retrieve(productId, {
+      expand: ["default_price"],
+    })
+
+    const price = product.default_price as Stripe.Price
+
+    const successUrl = `${this.envService.get("STRIPE_SUCCESS_CHECKOUT_URL")}?session_id={CHECKOUT_SESSION_ID}`
+    const cancelUrl = this.envService.get("STRIPE_CANCEL_CHECKOUT_URL")
+
+    const checkoutSession = await this.gateway.checkout.sessions.create({
+      mode: "subscription",
+      billing_address_collection: "auto",
+      line_items: [
+        {
+          price: price.id,
+          quantity: 1,
+          // price_data: {
+          //   currency: price.currency,
+          // },
+        },
+      ],
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+    })
+
+    return Checkout.create({
+      url: checkoutSession.url ?? "",
     })
   }
 }

@@ -13,6 +13,8 @@ export const envSchema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_BASE_IMAGE_URL: z.string().url(),
   STRIPE_SECRET_KEY: z.string(),
+  STRIPE_SUCCESS_CHECKOUT_URL: z.string().url(),
+  STRIPE_CANCEL_CHECKOUT_URL: z.string().url(),
 })
 
 export type Env = z.infer<typeof envSchema>
