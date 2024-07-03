@@ -18,6 +18,7 @@ export class StripePaymentGateway implements PaymentGateway {
       appInfo: {
         name: "Gardenscape",
       },
+      // typescript: true,
     })
   }
 
@@ -64,13 +65,13 @@ export class StripePaymentGateway implements PaymentGateway {
     })
 
     const products = response.data.map((product) => {
-      const price = product.default_price as Stripe.Price
+      const price = product.default_price as Stripe.Price | null
 
       return {
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: (price.unit_amount as number) / 100,
+        price: !price ? 0 : (price.unit_amount as number) / 100,
         description: product.description,
         type: product.metadata.type,
         features: product.marketing_features,

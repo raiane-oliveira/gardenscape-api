@@ -28,6 +28,8 @@ import { FetchProductsUseCase } from "@/domain/billing/use-cases/fetch-products"
 import { PaymentModule } from "../payment/payment.module"
 import { CreateCheckoutPaymentController } from "./controllers/create-checkout-payment.controller"
 import { CreateCheckoutUseCase } from "@/domain/billing/use-cases/create-checkout"
+import { StripeSubscriptionsWebhookController } from "./controllers/stripe-subscriptions-webhook.controller"
+import { CreateSubscriptionUseCase } from "@/domain/billing/use-cases/create-subscription"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, PaymentModule],
@@ -42,6 +44,7 @@ import { CreateCheckoutUseCase } from "@/domain/billing/use-cases/create-checkou
     UploadGardenerAvatarController,
     FetchProductsController,
     CreateCheckoutPaymentController,
+    StripeSubscriptionsWebhookController,
   ],
   providers: [
     AuthenticateGardenerUseCase,
@@ -59,6 +62,7 @@ import { CreateCheckoutUseCase } from "@/domain/billing/use-cases/create-checkou
     UploadAndUpdateAvatarImageUseCase,
     FetchProductsUseCase,
     CreateCheckoutUseCase,
+    CreateSubscriptionUseCase,
   ],
 })
 export class HttpModule {}

@@ -59,3 +59,15 @@ model PlantOnGarden {
 
   @@map("plants_on_garden")
 }
+
+model Subscription {
+  id             String    @id @default(uuid())
+  subscriptionId String    @unique
+  productId      String
+  customerId     String    @map("customer_id")
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @map("updated_at")
+
+  @@map("subscriptions")
+}

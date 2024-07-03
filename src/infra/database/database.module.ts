@@ -6,6 +6,8 @@ import { GardensRepository } from "@/domain/garden/repositories/gardens-reposito
 import { PrismaGardensRepository } from "./prisma/repositories/prisma-gardens-repository"
 import { PlantsRepository } from "@/domain/garden/repositories/plants-repository"
 import { PrismaPlantsRepository } from "./prisma/repositories/prisma-plants-repository"
+import { SubscriptionsRepository } from "@/domain/billing/repositories/subscriptions-repository"
+import { PrismaSubscriptionsRepository } from "./prisma/repositories/prisma-subscriptions-repository"
 
 @Module({
   providers: [
@@ -22,12 +24,17 @@ import { PrismaPlantsRepository } from "./prisma/repositories/prisma-plants-repo
       provide: PlantsRepository,
       useClass: PrismaPlantsRepository,
     },
+    {
+      provide: SubscriptionsRepository,
+      useClass: PrismaSubscriptionsRepository,
+    },
   ],
   exports: [
     PrismaService,
     GardenersRepository,
     GardensRepository,
     PlantsRepository,
+    SubscriptionsRepository,
   ],
 })
 export class DatabaseModule {}
