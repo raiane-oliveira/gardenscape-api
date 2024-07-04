@@ -5,12 +5,18 @@ import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { Feature } from "@/domain/billing/entities/feature"
 import { ProductWithFeatures } from "@/domain/billing/entities/value-objects/product-with-features"
 import { Checkout } from "@/domain/billing/entities/checkout"
+import { InMemorySubscriptionsRepository } from "../repositories/in-memory-subscriptions-repository"
+import { SubscriptionWithDetails } from "@/domain/billing/entities/value-objects/subscription-with-details"
 
 export class FakePaymentGateway implements PaymentGateway {
   items: Product[] = [
     makeProduct({}, new UniqueEntityId("product-01")),
     makeProduct({}, new UniqueEntityId("product-02")),
   ]
+
+  constructor(
+    private subscriptionsRepository: InMemorySubscriptionsRepository,
+  ) {}
 
   async fetchProducts(): Promise<Product[]> {
     return this.items
@@ -58,9 +64,43 @@ export class FakePaymentGateway implements PaymentGateway {
     })
   }
 
-  async createCheckout(): Promise<Checkout> {
+  async createCheckout({ userId }): Promise<Checkout> {
     return Checkout.create({
       url: "http://faker-url.com",
+      userId,
+    })
+  }
+
+  async findSubscriptionsByCustomerId(customerId: string) {
+    const subscriptions = this.subscriptionsRepository.items.filter(
+      (item) => item.customerId.toString() === customerId,
+    )
+
+    const product = this.items[0]
+
+    return subscriptions.map((subscription) => {
+      return SubscriptionWithDetails.create({
+        subscriptionId: subscription.id.toString(),
+        userId: subscription.userId,
+        customerId: subscription.customerId,
+        active: subscription.active,
+
+        subscribeAt: subscription.createdAt,
+        updatedAt: subscription.updatedAt,
+        product: {
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          features: [
+            {
+              id: new UniqueEntityId(),
+              name: "feature-01",
+            },
+          ],
+        },
+      })
     })
   }
 }

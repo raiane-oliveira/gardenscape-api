@@ -8,6 +8,7 @@ import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { Injectable } from "@nestjs/common"
 import { ProductWithFeatures } from "@/domain/billing/entities/value-objects/product-with-features"
 import { Checkout } from "@/domain/billing/entities/checkout"
+import { StripeSubscriptionWithDetailsMapper } from "./mappers/stripe-subscription-with-details-mapper"
 
 @Injectable()
 export class StripePaymentGateway implements PaymentGateway {
@@ -98,7 +99,7 @@ export class StripePaymentGateway implements PaymentGateway {
     })
   }
 
-  async createCheckout(productId: string) {
+  async createCheckout({ productId, userId }) {
     const product = await this.gateway.products.retrieve(productId, {
       expand: ["default_price"],
     })
@@ -120,12 +121,41 @@ export class StripePaymentGateway implements PaymentGateway {
           // },
         },
       ],
+      subscription_data: {
+        metadata: {
+          userId,
+        },
+      },
       success_url: successUrl,
       cancel_url: cancelUrl,
     })
 
     return Checkout.create({
       url: checkoutSession.url ?? "",
+      userId,
+    })
+  }
+
+  async findSubscriptionsByCustomerId(customerId: string) {
+    const subscriptions = await this.gateway.subscriptions.list({
+      customer: customerId,
+    })
+
+    if (subscriptions.data.length <= 0) {
+      return []
+    }
+
+    const productId = subscriptions.data[0].items.data[0].plan.product ?? ""
+
+    const product = await this.gateway.products.retrieve(productId.toString(), {
+      expand: ["default_price"],
+    })
+
+    return subscriptions.data.map((subscription) => {
+      return StripeSubscriptionWithDetailsMapper.toDomain({
+        ...subscription,
+        product,
+      })
     })
   }
 }

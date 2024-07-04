@@ -19,4 +19,12 @@ export class InMemorySubscriptionsRepository
 
     return subscription
   }
+
+  async findManyByUserId(userId: string) {
+    const subscription = this.items.filter(
+      (item) => item.userId.toString() === userId,
+    )
+
+    return subscription
+  }
 }

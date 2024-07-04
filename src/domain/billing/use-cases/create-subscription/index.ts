@@ -8,6 +8,7 @@ import { SubscriptionAlreadyExistsError } from "@/core/errors/subscription-alrea
 interface CreateSubscriptionUseCaseRequest {
   subscriptionId?: string
   productId: string
+  customerId: string
   userId: string
   active: boolean
 }
@@ -28,11 +29,13 @@ export class CreateSubscriptionUseCase {
     productId,
     userId,
     active,
+    customerId,
   }: CreateSubscriptionUseCaseRequest): Promise<CreateSubscriptionUseCaseResponse> {
     const subscription = Subscription.create(
       {
         productId: new UniqueEntityId(productId),
         userId: new UniqueEntityId(userId),
+        customerId,
         active,
       },
       subscriptionId ? new UniqueEntityId(subscriptionId) : undefined,

@@ -39,8 +39,9 @@ export class StripeSubscriptionsWebhookController {
         const result = await this.createSubscriptionUseCase.execute({
           subscriptionId: subscription.id,
           productId: subscription.items.data[0].price.id,
-          active: subscription.status === "active",
-          userId: subscription.customer.toString(),
+          active: true,
+          userId: subscription.metadata.userId ?? "",
+          customerId: subscription.customer.toString(),
         })
 
         if (result.isLeft()) {

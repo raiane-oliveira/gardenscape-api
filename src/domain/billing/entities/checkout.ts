@@ -4,6 +4,7 @@ import { Optional } from "@/core/types/optional"
 
 export interface CheckoutProps {
   url: string
+  userId: UniqueEntityId
   createdAt: Date
 }
 
@@ -14,6 +15,10 @@ export class Checkout extends Entity<CheckoutProps> {
 
   get createdAt() {
     return this.props.createdAt
+  }
+
+  get userId() {
+    return this.props.userId
   }
 
   static create(

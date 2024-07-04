@@ -27,4 +27,17 @@ export class PrismaSubscriptionsRepository implements SubscriptionsRepository {
 
     return PrismaSubscriptionMapper.toDomain(subscription)
   }
+
+  async findManyByUserId(userId: string) {
+    const subscriptions = await this.prisma.subscription.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+
+    return subscriptions.map(PrismaSubscriptionMapper.toDomain)
+  }
 }

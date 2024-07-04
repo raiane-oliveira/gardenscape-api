@@ -5,6 +5,7 @@ import { Optional } from "@/core/types/optional"
 export interface SubscriptionProps {
   productId: UniqueEntityId
   userId: UniqueEntityId
+  customerId: string
   active: boolean
   createdAt: Date
   updatedAt?: Date | null
@@ -17,6 +18,10 @@ export class Subscription extends Entity<SubscriptionProps> {
 
   get userId() {
     return this.props.userId
+  }
+
+  get customerId() {
+    return this.props.customerId
   }
 
   get active() {

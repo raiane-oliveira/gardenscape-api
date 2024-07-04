@@ -28,7 +28,8 @@ model User {
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime? @map("updated_at")
 
-  garden Garden[]
+  garden       Garden[]
+  Subscription Subscription[]
 
   @@map("users")
 }
@@ -65,9 +66,12 @@ model Subscription {
   subscriptionId String    @unique
   productId      String
   customerId     String    @map("customer_id")
+  userId         String    @map("user_id")
   active         Boolean   @default(true)
   createdAt      DateTime  @default(now()) @map("created_at")
   updatedAt      DateTime? @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
 
   @@map("subscriptions")
 }

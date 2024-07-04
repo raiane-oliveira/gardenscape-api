@@ -1,4 +1,6 @@
 import { CreateCheckoutUseCase } from "@/domain/billing/use-cases/create-checkout"
+import { CurrentUser } from "@/infra/auth/current-user-decorator"
+import { UserPayload } from "@/infra/auth/jwt.strategy"
 import {
   BadRequestException,
   Controller,
@@ -13,9 +15,13 @@ export class CreateCheckoutPaymentController {
 
   @HttpCode(201)
   @Post("/products/:productId/checkout")
-  async handle(@Param("productId") productId: string) {
+  async handle(
+    @Param("productId") productId: string,
+    @CurrentUser() user: UserPayload,
+  ) {
     const result = await this.createCheckoutUseCase.execute({
       productId,
+      userId: user.sub,
     })
 
     if (result.isLeft()) {

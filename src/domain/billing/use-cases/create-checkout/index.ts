@@ -5,6 +5,7 @@ import { Checkout } from "../../entities/checkout"
 
 interface CreateCheckoutUseCaseRequest {
   productId: string
+  userId: string
 }
 
 type CreateCheckoutUseCaseResponse = Either<
@@ -20,8 +21,12 @@ export class CreateCheckoutUseCase {
 
   async execute({
     productId,
+    userId,
   }: CreateCheckoutUseCaseRequest): Promise<CreateCheckoutUseCaseResponse> {
-    const checkout = await this.paymentGateway.createCheckout(productId)
+    const checkout = await this.paymentGateway.createCheckout({
+      userId,
+      productId,
+    })
 
     return right({
       checkout,
