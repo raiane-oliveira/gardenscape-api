@@ -68,28 +68,15 @@ export class StripePaymentGateway implements PaymentGateway {
     const products = response.data.map((product) => {
       const price = product.default_price as Stripe.Price | null
 
-      return {
-        id: product.id,
-        name: product.name,
-        imageUrl: product.images[0],
-        price: !price ? 0 : (price.unit_amount as number) / 100,
-        description: product.description,
-        type: product.metadata.type,
-        features: product.marketing_features,
-        createdAt: new Date(product.created),
-      }
-    })
-
-    return products.map((product) => {
       return ProductWithFeatures.create({
         productId: new UniqueEntityId(product.id),
         name: product.name,
         description: product.description,
-        imageUrl: product.imageUrl,
-        price: product.price,
+        imageUrl: product.images[0],
+        price: (price?.unit_amount as number) / 100 ?? 0,
         status: product.type,
-        createdAt: product.createdAt,
-        features: product.features.map((feature) => {
+        createdAt: new Date(product.created),
+        features: product.marketing_features.map((feature) => {
           return Feature.create({
             name: feature.name ?? "",
             productId: new UniqueEntityId(product.id),
@@ -97,6 +84,8 @@ export class StripePaymentGateway implements PaymentGateway {
         }),
       })
     })
+
+    return products
   }
 
   async createCheckout({ productId, userId }) {
